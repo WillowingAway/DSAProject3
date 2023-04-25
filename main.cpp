@@ -5,7 +5,6 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
-#include <vector>
 #include <fstream>
 #include "quicksort.h"
 #include "mergesort.h"
