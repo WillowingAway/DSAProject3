@@ -5,7 +5,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
-#include <list>
+#include <vector>
 #include <fstream>
 #include "quicksort.h"
 #include "mergesort.h"
@@ -13,7 +13,7 @@
 using namespace std;
 
 //parseFile function to parse the entirety of the electionDataTest.csv
-void parseFile(list<datapoint> &data, string fName)
+void parseFile(vector<datapoint> &data, string fName)
 {
     //create file stream to read the file, and open the requested file name
     ifstream inFile;
@@ -56,7 +56,7 @@ void parseFile(list<datapoint> &data, string fName)
 
         while(getline(separate, temp, ','))
         {
-            components.push_back(temp);           //push the component into the list of components
+            components.push_back(temp);           //push the component into the vector of components
         }
 
         //iterate through the components to add them to the data
@@ -79,7 +79,7 @@ void parseFile(list<datapoint> &data, string fName)
         //calculate extra components
         tempPoint.voteRate = (double)tempPoint.numVotes / (double)tempPoint.totalVotes;
 
-        //push back the completed datapoint into the list
+        //push back the completed datapoint into the vector
         data.push_back(tempPoint);
     }
 }
@@ -100,16 +100,56 @@ void displayText()
 
 //todo
 //get average of a type
-double getAverage(list<datapoint> data, string mode)
+double getAverage(vector<datapoint> data, string mode)
 {
+    double sum;
+    //modes YEAR COUNTYNUM NUMVOTES TOTALVOTES VOTERATE
+    if(mode == "YEAR")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            sum += data[i].year;
+        }
+    }
+    else if(mode == "COUNTYNUM")
+    {
+
+    }
+    else if(mode == "NUMVOTES")
+    {
+
+    }
+    else if(mode == "TOTALVOTES")
+    {
+
+    }
+    else if(mode == "VOTERATE")
+    {
+
+    }
+
     return 0;
 }
 
 //todo
 //search for a value and return the address
-int searchValue(list<datapoint> data, string mode, string value)
+int searchValue(vector<datapoint> data, string mode, string value)
 {
     return 0;
+}
+
+//todo
+//return a vector of counties with very close DEM & REP voting percentages
+void findCloseCounties(vector<datapoint> data, vector<datapoint> &result)
+{
+
+}
+
+//todo
+//return a vector of counties with very extreme DEM & REP voting percentages
+void findExtremeCounties(vector<datapoint> data, vector<datapoint> &result)
+{
+
 }
 
 //test comment
@@ -117,10 +157,10 @@ int main()
 {
     //insert new line so that format looks nicer.
     cout << endl;
-    //list to hold the entirety of the datapoints, parsed and entered using parseFile()
-    list<datapoint> data;
+    //vector to hold the entirety of the datapoints, parsed and entered using parseFile()
+    vector<datapoint> data;
 
-    //load and parse the file into the datapoint list.
+    //load and parse the file into the datapoint vector.
     //file must be put in cmake-build-debug folder in order to be recognized for some reason, not sure why.
     parseFile(data, "electionDataTest.csv");
 
@@ -209,12 +249,7 @@ int main()
             cout << "Tallying average..." << endl;
             cout << "Search by?" << endl;
             cout << "YEAR" << endl;
-            cout << "STATE" << endl;
-            cout << "COUNTY" << endl;
             cout << "COUNTYNUM" << endl;
-            cout << "OFFICE" << endl;
-            cout << "CANDIDATE" << endl;
-            cout << "PARTY" << endl;
             cout << "NUMVOTES" << endl;
             cout << "TOTALVOTES" << endl;
             cout << "VOTERATE" << endl;
@@ -297,19 +332,29 @@ int main()
         }
         else if(function == 6)
         {
+            cout << "Displaying close DEP & REP counties..." << endl;
+            vector<datapoint> result;
 
+            findCloseCounties(data, result);
+
+            //todo
+            displayGraph();
         }
         else if(function == 7)
         {
+            cout << "Displaying extreme counties..." << endl;
+            vector<datapoint> result;
 
+            findExtremeCounties(data, result);
+
+            //todo
+            displayGraph();
         }
-        else if(function == -1)
+        else
         {
+            cout << "Exiting program..." << endl;
             break;
         }
-
-
-
     }
 
     cout << endl << "successful run" << endl;

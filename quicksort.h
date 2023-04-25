@@ -7,11 +7,12 @@
 
 #include "datapoint.h"
 #include <string>
+#include <vector>
 using namespace std;
 
 #endif //DSAPROJECT3_QUICKSORT_H
 
-void quickSort(list<datapoint> &data, string mode)
+void quickSort(vector<datapoint> &data, string mode)
 {
 
 }

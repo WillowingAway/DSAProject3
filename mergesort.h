@@ -3,7 +3,7 @@
 //
 #pragma once
 
-void mergeSort(list<datapoint> &data, string mode)
+void mergeSort(vector<datapoint> &data, string mode)
 {
 
 }
