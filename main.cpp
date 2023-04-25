@@ -355,7 +355,7 @@ int main()
             cin >> mode;
 
             //todo
-            mergeSort(data, mode);
+            //mergeSort(data, mode);
             //todo
             displayGraph();
         }
