@@ -8,7 +8,7 @@
 #include <fstream>
 #include "quicksort.h"
 #include "mergesort.h"
-#include "datapoint.h"
+//#include "datapoint.h"
 using namespace std;
 
 //parseFile function to parse the entirety of the electionDataTest.csv
@@ -69,7 +69,20 @@ void parseFile(vector<datapoint> &data, string fName)
         tempPoint.countyNum = stoi(*it++);
         tempPoint.office = *it++;
         tempPoint.candidate = *it++;
-        tempPoint.party = *it++;
+
+        if(*it == "DEMOCRAT")
+        {
+            tempPoint.party = "DEM";
+        }
+        else if(*it == "REPUBLICAN")
+        {
+            tempPoint.party = "REP";
+        }
+        else
+        {
+            tempPoint.party = "OTHER";
+        }
+        it++;
         tempPoint.numVotes = stoi(*it++);
         tempPoint.totalVotes = stoi(*it++);
         tempPoint.version = stoi(*it++);
@@ -97,11 +110,10 @@ void displayText()
 
 }
 
-//todo
 //get average of a type
 double getAverage(vector<datapoint> data, string mode)
 {
-    double sum;
+    double sum = 0, average = 0;
     //modes YEAR COUNTYNUM NUMVOTES TOTALVOTES VOTERATE
     if(mode == "YEAR")
     {
@@ -109,32 +121,157 @@ double getAverage(vector<datapoint> data, string mode)
         {
             sum += data[i].year;
         }
+
+        average = (double) sum / (double) data.size();
     }
     else if(mode == "COUNTYNUM")
     {
+        for(int i = 0; i < data.size(); i++)
+        {
+            sum += data[i].countyNum;
+        }
 
+        average = (double) sum / (double) data.size();
     }
     else if(mode == "NUMVOTES")
     {
+        for(int i = 0; i < data.size(); i++)
+        {
+            sum += data[i].numVotes;
+        }
 
+        average = (double) sum / (double) data.size();
     }
     else if(mode == "TOTALVOTES")
     {
+        for(int i = 0; i < data.size(); i++)
+        {
+            sum += data[i].totalVotes;
+        }
 
+        average = (double) sum / (double) data.size();
     }
     else if(mode == "VOTERATE")
     {
+        for(int i = 0; i < data.size(); i++)
+        {
+            sum += data[i].voteRate;
+        }
 
+        average = (double) sum / (double) data.size();
     }
 
-    return 0;
+    return average;
 }
 
-//todo
 //search for a value and return the address
 int searchValue(vector<datapoint> data, string mode, string value)
 {
-    return 0;
+    int address = 0;
+    //modes YEAR STATE COUNTY COUNTYNUM OFFICE CANDIDATE PARTY NUMVOTES TOTALVOTES VOTERATE
+
+    if(mode == "YEAR")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].year == stoi(value))
+            {
+                address = i;
+            }
+        }
+    }
+    else if(mode == "STATE")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].state == value)
+            {
+                address = i;
+            }
+        }
+    }
+    else if(mode == "COUNTY")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].county == value)
+            {
+                address = i;
+            }
+        }
+    }
+    else if(mode == "COUNTYNUM")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].countyNum == stoi(value))
+            {
+                address = i;
+            }
+        }
+    }
+    else if(mode == "OFFICE")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].office == value)
+            {
+                address = i;
+            }
+        }
+    }
+    else if(mode == "CANDIDATE")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].candidate == value)
+            {
+                address = i;
+            }
+        }
+    }
+    else if(mode == "PARTY")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].party == value)
+            {
+                address = i;
+            }
+        }
+    }
+    else if(mode == "NUMVOTES")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].numVotes == stoi(value))
+            {
+                address = i;
+            }
+        }
+    }
+    else if(mode == "TOTALVOTES")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].totalVotes == stoi(value))
+            {
+                address = i;
+            }
+        }
+    }
+    else if(mode == "VOTERATE")
+    {
+        for(int i = 0; i < data.size(); i++)
+        {
+            if(data[i].voteRate == stoi(value))
+            {
+                address = i;
+            }
+        }
+    }
+
+    return address;
 }
 
 //todo
@@ -254,7 +391,6 @@ int main()
             cout << "VOTERATE" << endl;
             cin >> mode;
 
-            //todo
             getAverage(data, mode);
             //todo
             displayText();
@@ -278,7 +414,6 @@ int main()
             cout << "What value?" << endl;
             cin >> value;
 
-            //todo
             searchValue(data, mode, value);
             //todo
             displayText();
@@ -304,7 +439,6 @@ int main()
             cout << "What value?" << endl;
             cin >> value;
 
-            //todo
             item1 = searchValue(data, mode, value);
 
             cout << "Search by?" << endl;
@@ -323,7 +457,6 @@ int main()
             cout << "What value?" << endl;
             cin >> value;
 
-            //todo
             item2 = searchValue(data, mode, value);
 
             //todo
