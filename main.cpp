@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 #include "quicksort.h"
 #include "mergesort.h"
 //#include "datapoint.h"
@@ -274,18 +275,59 @@ int searchValue(vector<datapoint> data, string mode, string value)
     return address;
 }
 
-//todo
 //return a vector of counties with very close DEM & REP voting percentages within 10%?
-void findCloseCounties(vector<datapoint> data, vector<datapoint> &result)
+void findCloseCounties(vector<datapoint> data, vector<string> &result)
 {
+    for(int i = 0; i < data.size(); i++)
+    {
+        //check if the vector of names does not contain the current entry
+        if(!(find(result.begin(), result.end(), data[i].county) != result.end()))
+        {
+            //check for matches
+            vector<int> checkMatches;
+            for(int j = i; j < data.size(); j++)
+            {
+                if(data[j].county == data[i].county)
+                {
+                    if(data[j].party == "DEM" || data[j].party == "REP")
+                    {
+                        checkMatches.push_back(j);
+                    }
+                }
+            }
 
+            //if two entries were input, get absolute value and if close enough, push to result.
+            if(checkMatches.size() == 2)
+            {
+                double difference = data[checkMatches[0]].voteRate - data[checkMatches[1]].voteRate;
+                if(abs(difference) <= 0.1)
+                {
+                    result.push_back(data[i].county);
+                }
+            }
+        }
+    }
 }
 
-//todo
 //return a vector of counties with very extreme DEM & REP voting percentages over 60%?
-void findExtremeCounties(vector<datapoint> data, vector<datapoint> &result)
+void findExtremeCounties(vector<datapoint> data, vector<string> &result)
 {
-
+    for(int i = 0; i < data.size(); i++)
+    {
+        //check if the vector of names does not contain the current entry
+        if(!(find(result.begin(), result.end(), data[i].county) != result.end()))
+        {
+            //check if the party is correct
+            if(data[i].party == "DEM" || data[i].party == "REP")
+            {
+                //check if the vote rate passes the percentage check
+                if(data[i].voteRate >= 0.6)
+                {
+                    result.push_back(data[i].county);
+                }
+            }
+        }
+    }
 }
 
 //test comment
@@ -465,7 +507,7 @@ int main()
         else if(function == 6)
         {
             cout << "Displaying close DEP & REP counties..." << endl;
-            vector<datapoint> result;
+            vector<string> result;
 
             findCloseCounties(data, result);
 
@@ -475,7 +517,7 @@ int main()
         else if(function == 7)
         {
             cout << "Displaying extreme counties..." << endl;
-            vector<datapoint> result;
+            vector<string> result;
 
             findExtremeCounties(data, result);
 
