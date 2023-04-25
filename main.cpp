@@ -275,14 +275,14 @@ int searchValue(vector<datapoint> data, string mode, string value)
 }
 
 //todo
-//return a vector of counties with very close DEM & REP voting percentages
+//return a vector of counties with very close DEM & REP voting percentages within 10%?
 void findCloseCounties(vector<datapoint> data, vector<datapoint> &result)
 {
 
 }
 
 //todo
-//return a vector of counties with very extreme DEM & REP voting percentages
+//return a vector of counties with very extreme DEM & REP voting percentages over 60%?
 void findExtremeCounties(vector<datapoint> data, vector<datapoint> &result)
 {
 
