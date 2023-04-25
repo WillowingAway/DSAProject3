@@ -6,6 +6,7 @@
 #define DSAPROJECT3_DATAPOINT_H
 
 #include <string>
+#include <vector>
 using namespace std;
 
 #endif //DSAPROJECT3_DATAPOINT_H
