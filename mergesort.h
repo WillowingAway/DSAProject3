@@ -3,3 +3,8 @@
 //
 #pragma once
 
+void mergeSort(list<datapoint> &data, string mode)
+{
+
+}
+

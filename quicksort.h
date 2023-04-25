@@ -5,9 +5,13 @@
 #ifndef DSAPROJECT3_QUICKSORT_H
 #define DSAPROJECT3_QUICKSORT_H
 
-void quicksort()
+#include "datapoint.h"
+#include <string>
+using namespace std;
+
+#endif //DSAPROJECT3_QUICKSORT_H
+
+void quickSort(list<datapoint> &data, string mode)
 {
 
 }
-
-#endif //DSAPROJECT3_QUICKSORT_H
