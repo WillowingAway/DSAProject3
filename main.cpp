@@ -116,16 +116,18 @@ void displayGraph()
 //todo: displayText
 //display text
 //this is a version purely for debugging text that would be displayed
-void displayText(vector<vector<datapoint>> vec)
+void displayText(vector<datapoint> vec)
 {
     for(int i = 0; i < vec.size(); i++)
     {
-        for(int j = 0; j < vec[i].size(); j++)
-        {
-            vec[i][j].display();
-            cout << endl;
-        }
+        vec[i].display();
+        cout << endl;
     }
+}
+
+void displayText(double d, string s)
+{
+    cout << s << " " << d << endl;
 }
 
 //get average of a type
@@ -399,10 +401,8 @@ int main()
             //todo: displayGraph
             displayGraph();
 
-            //debug only
-            vector<vector<datapoint>> debugVec;
-            debugVec.push_back(data);
-            displayText(debugVec);
+            //debug only, comment out when UI is done
+            displayText(data);
         }
         else if(function == 1)
         {
@@ -460,7 +460,7 @@ int main()
             double avg = getAverage(data, mode);
 
             //todo: displayText
-            //displayText();
+            displayText(avg, ("The average stat of " + mode + " is:"));
         }
         else if(function == 4)
         {
@@ -477,13 +477,12 @@ int main()
             cout << "TOTALVOTES" << endl;
             cout << "VOTERATE" << endl;
             cin >> mode;
-
             cout << "What value?" << endl;
             cin >> value;
 
-            searchValue(data, mode, value);
-            //todo: displayText
-            //displayText();
+            vector<datapoint> vec;
+            vec.push_back(data[searchValue(data, mode, value)]);
+            displayText(vec);
         }
         else if(function == 5)
         {
@@ -527,7 +526,10 @@ int main()
             item2 = searchValue(data, mode, value);
 
             //todo: displayText
-            //displayText();
+            vector<datapoint> vec;
+            vec.push_back(data[item1]);
+            vec.push_back(data[item2]);
+            displayText(vec);
         }
         else if(function == 6)
         {
