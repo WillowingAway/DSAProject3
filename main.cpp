@@ -24,10 +24,10 @@ void parseFile(vector<datapoint> &data, string fName)
     //remove the first line from the file, since it contains the label
     getline(inFile, line);
 
-    do
+    while(getline(inFile, line))
     {
         //get the line in the file
-        getline(inFile, line);
+        //cout << line << endl;
 
         //make sure the line exists as to not push back an empty line
         if(!inFile)
@@ -37,16 +37,16 @@ void parseFile(vector<datapoint> &data, string fName)
 
         //push back the line to the dataPoints vector
         dataPoints.push_back(line);
-
-    }while(inFile.eof());
-
-    //output each line read in to verify lines were read in. this is for debug only.
-    for(int i = 0; i < dataPoints.size(); i++)
-    {
-        cout << dataPoints[i] << endl;
     }
 
+    //output each line read in to verify lines were read in. this is for debug only.
+    /*for(int i = 0; i < dataPoints.size(); i++)
+    {
+        cout << dataPoints[i] << endl;
+    }*/
+
     //parse each line that was previously grabbed
+    int count = 0;
     for(auto itr = dataPoints.begin(); itr != dataPoints.end(); itr++)
     {
         stringstream separate(*itr);    //string stream to handle the inputs
@@ -56,6 +56,7 @@ void parseFile(vector<datapoint> &data, string fName)
 
         while(getline(separate, temp, ','))
         {
+            //cout << temp << endl;
             components.push_back(temp);           //push the component into the vector of components
         }
 
@@ -63,11 +64,19 @@ void parseFile(vector<datapoint> &data, string fName)
         auto it = components.begin();
 
         //set each component of the datapoint, iterating through each time.
+        count++;
+        //cout << count << " " << *it << endl;
         tempPoint.year = stoi(*it++);
         tempPoint.stateFull = *it++;
         tempPoint.state = *it++;
         tempPoint.county = *it++;
-        tempPoint.countyNum = stoi(*it++);
+
+        char c = it->at(0);
+        if(isdigit(c))
+        {
+            tempPoint.countyNum = stoi(*it++);
+        }
+
         tempPoint.office = *it++;
         tempPoint.candidate = *it++;
 
@@ -97,18 +106,26 @@ void parseFile(vector<datapoint> &data, string fName)
     }
 }
 
-//todo
+//todo: displayGraph
 //display the graph
 void displayGraph()
 {
 
 }
 
-//todo
+//todo: displayText
 //display text
-void displayText()
+//this is a version purely for debugging text that would be displayed
+void displayText(vector<vector<datapoint>> vec)
 {
-
+    for(int i = 0; i < vec.size(); i++)
+    {
+        for(int j = 0; j < vec[i].size(); j++)
+        {
+            vec[i][j].display();
+            cout << endl;
+        }
+    }
 }
 
 //get average of a type
@@ -337,10 +354,12 @@ int main()
     cout << endl;
     //vector to hold the entirety of the datapoints, parsed and entered using parseFile()
     vector<datapoint> data;
+    //const string FNAME = "electionDataTest.csv";
+    const string FNAME = "2000-2020-county-president.csv";
 
     //load and parse the file into the datapoint vector.
     //file must be put in cmake-build-debug folder in order to be recognized for some reason, not sure why.
-    parseFile(data, "electionDataTest.csv");
+    parseFile(data, FNAME);
 
     //  main program running, function decides which function of the program should be run.
     //  0 - Display Graph
@@ -359,7 +378,7 @@ int main()
 
     while(function >= 0 && function <= 7)
     {
-        //todo
+        //todo: UI buttons
         //replace this with a button click when the UI is completed
         //get the chosen function.
         cout << " Which function should be run?" << endl;
@@ -376,9 +395,14 @@ int main()
 
         if(function == 0)
         {
-            cout << "Displaying graph." << endl;
-            //todo
+            cout << "Displaying graph..." << endl;
+            //todo: displayGraph
             displayGraph();
+
+            //debug only
+            vector<vector<datapoint>> debugVec;
+            debugVec.push_back(data);
+            displayText(debugVec);
         }
         else if(function == 1)
         {
@@ -396,9 +420,9 @@ int main()
             cout << "VOTERATE" << endl;
             cin >> mode;
 
-            //todo
+            //todo: implement mergeSort
             //mergeSort(data, mode);
-            //todo
+            //todo: displayGraph
             displayGraph();
         }
         else if(function == 2)
@@ -417,9 +441,9 @@ int main()
             cout << "VOTERATE" << endl;
             cin >> mode;
 
-            //todo
-            quickSort(data, mode);
-            //todo
+            quickSort(data, 0, data.size() - 1, mode);
+
+            //todo: displayGraph
             displayGraph();
         }
         else if(function == 3)
@@ -433,9 +457,10 @@ int main()
             cout << "VOTERATE" << endl;
             cin >> mode;
 
-            getAverage(data, mode);
-            //todo
-            displayText();
+            double avg = getAverage(data, mode);
+
+            //todo: displayText
+            //displayText();
         }
         else if(function == 4)
         {
@@ -457,8 +482,8 @@ int main()
             cin >> value;
 
             searchValue(data, mode, value);
-            //todo
-            displayText();
+            //todo: displayText
+            //displayText();
         }
         else if(function == 5)
         {
@@ -501,8 +526,8 @@ int main()
 
             item2 = searchValue(data, mode, value);
 
-            //todo
-            displayText();
+            //todo: displayText
+            //displayText();
         }
         else if(function == 6)
         {
@@ -511,7 +536,7 @@ int main()
 
             findCloseCounties(data, result);
 
-            //todo
+            //todo: displayGraph
             displayGraph();
         }
         else if(function == 7)
@@ -521,7 +546,7 @@ int main()
 
             findExtremeCounties(data, result);
 
-            //todo
+            //todo: displayGraph
             displayGraph();
         }
         else

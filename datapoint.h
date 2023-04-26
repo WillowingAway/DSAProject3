@@ -7,6 +7,8 @@
 
 #include <string>
 #include <vector>
+#include <iomanip>
+#include <iostream>
 using namespace std;
 
 #endif //DSAPROJECT3_DATAPOINT_H
@@ -29,4 +31,10 @@ struct datapoint
 
     //extra details that would be useful to calculate
     double voteRate;        //this will be calucated by voteRate = (double)numVotes / (double)totalVotes;
+
+    void display()
+    {
+        cout << "year: " << year << " state: " << state << " county: " << county << " countyNum: " << countyNum << " office: " << office << endl
+        << "candidate: " << candidate << " party: " << party << " numVotes: " << numVotes << " totalVotes: " << totalVotes << " voteRate: " << setprecision(3) << voteRate << endl;
+    }
 };
