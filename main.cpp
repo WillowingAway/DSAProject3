@@ -125,6 +125,14 @@ void displayText(vector<datapoint> vec)
     }
 }
 
+void displayText(vector<string> vec)
+{
+    for(int i = 0; i < vec.size(); i++)
+    {
+        cout << vec[i] << endl;
+    }
+}
+
 void displayText(double d, string s)
 {
     cout << s << " " << d << endl;
@@ -539,7 +547,10 @@ int main()
             findCloseCounties(data, result);
 
             //todo: displayGraph
-            displayGraph();
+            //displayGraph();
+
+            cout << endl;
+            displayText(result);
         }
         else if(function == 7)
         {
@@ -549,7 +560,10 @@ int main()
             findExtremeCounties(data, result);
 
             //todo: displayGraph
-            displayGraph();
+            //displayGraph();
+
+            cout << endl;
+            displayText(result);
         }
         else
         {
