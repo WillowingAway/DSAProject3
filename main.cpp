@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include <iomanip>
-#include <vector>
 #include <fstream>
 #include <algorithm>
 #include <chrono>
@@ -446,7 +445,7 @@ int main()
             auto start = chrono::high_resolution_clock::now();
 
             //todo: implement mergeSort
-            //mergeSort(data, mode);
+            mergeSort(data, 0, data.size() - 1, mode);
             //todo: displayGraph
             displayGraph();
 
