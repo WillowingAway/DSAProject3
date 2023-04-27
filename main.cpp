@@ -7,10 +7,10 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
-#include "quicksort.h"
-#include "mergesort.h"
 #include <chrono>
-//#include "datapoint.h"
+#include <sstream>
+#include "sorters.h"
+
 using namespace std;
 
 //parseFile function to parse the entirety of the electionDataTest.csv

@@ -12,6 +12,194 @@ using namespace std;
 
 #endif //DSAPROJECT3_QUICKSORT_H
 
+// mergeSort and merge code adapted from module 6 - Sorting lecture slides
+
+void mergeVecs(vector<datapoint>& vec, int left, int mid, int right, string mode)
+{
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    vector<datapoint> X(n1), Y(n2);
+
+    for (int i = 0; i < n1; i++)
+        X[i] = vec[left + i];
+    for (int j = 0; j < n2; j++)
+        Y[j] = vec[mid + 1 + j];
+
+    int i, j, k;
+    i = 0;
+    j = 0;
+    k = left;
+
+    while (i < n1 && j < n2)
+    {
+        if(mode == "YEAR")
+        {
+            if (X[i].year <= Y[j].year)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+        else if(mode == "STATE")
+        {
+            if (X[i].state <= Y[j].state)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+        else if(mode == "COUNTY")
+        {
+            if (X[i].county <= Y[j].county)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+        else if(mode == "COUNTYNUM")
+        {
+            if (X[i].countyNum <= Y[j].countyNum)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+        else if(mode == "OFFICE")
+        {
+            if (X[i].office <= Y[j].office)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+        else if(mode == "CANDIDATE")
+        {
+            if (X[i].candidate <= Y[j].candidate)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+        else if(mode == "PARTY")
+        {
+            if (X[i].party <= Y[j].party)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+        else if(mode == "NUMVOTES")
+        {
+            if (X[i].numVotes <= Y[j].numVotes)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+        else if(mode == "TOTALVOTES")
+        {
+            if (X[i].totalVotes <= Y[j].totalVotes)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+        else if(mode == "VOTERATE")
+        {
+            if (X[i].voteRate <= Y[j].voteRate)
+            {
+                vec[k] = X[i];
+                i++;
+            }
+            else
+            {
+                vec[k] = Y[j];
+                j++;
+            }
+            k++;
+        }
+    }
+
+    while (i < n1)
+    {
+        vec[k] = X[i];
+        i++;
+        k++;
+    }
+    while (j < n2)
+    {
+        vec[k] = Y[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(vector<datapoint>& vec, int left, int right, string mode)
+{
+    if (left < right)
+    {
+        int mid = left + (right - left) / 2;
+        mergeSort(vec, left, mid, mode);
+        mergeSort(vec, mid + 1, right, mode);
+
+        mergeVecs(vec, left, mid, right, mode);
+    }
+}
+
 int qsPartition(vector<datapoint> &vec, int start, int end, string mode)
 {
     datapoint pivotPoint = vec[start];
