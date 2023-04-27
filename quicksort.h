@@ -22,7 +22,7 @@ int qsPartition(vector<datapoint> &vec, int start, int end, string mode)
     {
         if(mode == "YEAR")
         {
-            if(vec[i].year <= pivotPoint.year)
+            if(vec[i].state <= pivotPoint.state)
             {
                 count++;
             }
@@ -93,9 +93,12 @@ int qsPartition(vector<datapoint> &vec, int start, int end, string mode)
     }
 
     //swap the pivot with where it should be
-    int pivotID = start + count;
+    int pivotID = 0;
+    pivotID = start + count;
+    //cout << pivotID << endl;
     swap(vec[pivotID], vec[start]);
-    int st = start, ed = end;
+    int st = start;
+    int ed = end;
     //move start and end closer together
 
     while(st < pivotID && ed > pivotID)
@@ -103,7 +106,7 @@ int qsPartition(vector<datapoint> &vec, int start, int end, string mode)
         //adjust st
         if(mode == "YEAR")
         {
-            while(vec[st].year <= pivotPoint.year)
+            while(vec[st].state <= pivotPoint.state)
             {
                 st++;
             }
@@ -175,79 +178,82 @@ int qsPartition(vector<datapoint> &vec, int start, int end, string mode)
         //adjust ed
         if(mode == "YEAR")
         {
-            while(vec[ed].year > pivotPoint.year)
+            while(vec[ed].state > pivotPoint.state)
             {
                 ed--;
             }
         }
         else if(mode == "STATE")
         {
-            while(vec[ed].state.substr(0, 3) <= pivotPoint.state.substr(0, 3))
+            while(vec[ed].state.substr(0, 3) > pivotPoint.state.substr(0, 3))
             {
                 ed--;
             }
         }
         else if(mode == "COUNTY")
         {
-            while(vec[ed].county.substr(0, 3) <= pivotPoint.county.substr(0, 3))
+            while(vec[ed].county.substr(0, 3) > pivotPoint.county.substr(0, 3))
             {
                 ed--;
             }
         }
         else if(mode == "COUNTYNUM")
         {
-            while(vec[ed].countyNum <= pivotPoint.countyNum)
+            while(vec[ed].countyNum > pivotPoint.countyNum)
             {
                 ed--;
             }
         }
         else if(mode == "OFFICE")
         {
-            while(vec[ed].office.substr(0, 3) <= pivotPoint.office.substr(0, 3))
+            while(vec[ed].office.substr(0, 3) > pivotPoint.office.substr(0, 3))
             {
                 ed--;
             }
         }
         else if(mode == "CANDIDATE")
         {
-            while(vec[ed].candidate.substr(0, 3) <= pivotPoint.candidate.substr(0, 3))
+            while(vec[ed].candidate.substr(0, 3) > pivotPoint.candidate.substr(0, 3))
             {
                 ed--;
             }
         }
         else if(mode == "PARTY")
         {
-            while(vec[ed].party.substr(0, 3) <= pivotPoint.party.substr(0, 3))
+            while(vec[ed].party.substr(0, 3) > pivotPoint.party.substr(0, 3))
             {
                 ed--;
             }
         }
         else if(mode == "NUMVOTES")
         {
-            while(vec[ed].numVotes <= pivotPoint.numVotes)
+            while(vec[ed].numVotes > pivotPoint.numVotes)
             {
                 ed--;
             }
         }
         else if(mode == "TOTALVOTES")
         {
-            while(vec[ed].totalVotes <= pivotPoint.totalVotes)
+            while(vec[ed].totalVotes > pivotPoint.totalVotes)
             {
                 ed--;
             }
         }
         else if(mode == "VOTERATE")
         {
-            while(vec[ed].voteRate <= pivotPoint.voteRate)
+            while(vec[ed].voteRate > pivotPoint.voteRate)
             {
                 ed--;
             }
         }
 
-        if(st < pivotID && ed > pivotID)
+        if((st < pivotID) && (ed > pivotID))
         {
+            //cout << pivotID << endl;
+            //cout << "swapping " << st << " and " << ed << endl;
             swap(vec[st++], vec[ed--]);
         }
+
     }
 
     return pivotID;
@@ -260,9 +266,12 @@ void quickSort(vector<datapoint> &data, int start, int end, string mode)
     {
         return;
     }
-
-    //sort the pivot, and both sides of the pivot point
-    int partition = qsPartition(data, start, end, mode);
-    quickSort(data, start, partition - 1, mode);
-    quickSort(data, partition + 1, end, mode);
+    else
+    {
+        //sort the pivot, and both sides of the pivot point
+        int partition = 1;
+        partition = qsPartition(data, start, end, mode);
+        quickSort(data, start, partition - 1, mode);
+        quickSort(data, partition + 1, end, mode);
+    }
 }

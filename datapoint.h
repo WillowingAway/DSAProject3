@@ -35,6 +35,6 @@ struct datapoint
     void display()
     {
         cout << "year: " << year << " state: " << state << " county: " << county << " countyNum: " << countyNum << " office: " << office << endl
-        << "candidate: " << candidate << " party: " << party << " numVotes: " << numVotes << " totalVotes: " << totalVotes << " voteRate: " << setprecision(3) << voteRate << endl;
+        << "candidate: " << candidate << " party: " << party << " numVotes: " << numVotes << " totalVotes: " << totalVotes << " voteRate: " << setprecision(5) << voteRate << endl;
     }
 };

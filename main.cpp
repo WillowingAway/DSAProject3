@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "quicksort.h"
 #include "mergesort.h"
+#include <chrono>
 //#include "datapoint.h"
 using namespace std;
 
@@ -75,6 +76,10 @@ void parseFile(vector<datapoint> &data, string fName)
         if(isdigit(c))
         {
             tempPoint.countyNum = stoi(*it++);
+        }
+        else
+        {
+            tempPoint.countyNum = 9999;
         }
 
         tempPoint.office = *it++;
@@ -369,7 +374,11 @@ int main()
 
     //load and parse the file into the datapoint vector.
     //file must be put in cmake-build-debug folder in order to be recognized for some reason, not sure why.
+    auto parsestart = chrono::high_resolution_clock::now();
     parseFile(data, FNAME);
+    auto parseend = chrono::high_resolution_clock::now();
+    auto parseduration = chrono::duration_cast<chrono::microseconds>(parseend - parsestart);
+    cout << "Database constructed in: " << parseduration.count() << " microseconds." << endl << endl;
 
     //  main program running, function decides which function of the program should be run.
     //  0 - Display Graph
@@ -381,8 +390,8 @@ int main()
     //  6 - Display counties that have DEM & REP percentages of nearly equal value
     //  7 - Display counties that are mostly DEM or REP percentage only
     int function = 0;
-    string mode = "";
-    string value = "";
+    string mode = "", mode1 = "", mode2 = "";
+    string value = "", value1 = "", value2 = "";
     //the search parameters. valid options are all-caps only.
     //YEAR STATE COUNTY COUNTYNUM OFFICE CANDIDATE PARTY NUMVOTES TOTALVOTES VOTERATE
 
@@ -405,12 +414,18 @@ int main()
 
         if(function == 0)
         {
+            auto start = chrono::high_resolution_clock::now();
             cout << "Displaying graph..." << endl;
             //todo: displayGraph
             displayGraph();
 
             //debug only, comment out when UI is done
             displayText(data);
+
+            cout << endl;
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+            cout << "Operation took: " << duration.count() << " microseconds." << endl << endl;
         }
         else if(function == 1)
         {
@@ -428,10 +443,17 @@ int main()
             cout << "VOTERATE" << endl;
             cin >> mode;
 
+            auto start = chrono::high_resolution_clock::now();
+
             //todo: implement mergeSort
             //mergeSort(data, mode);
             //todo: displayGraph
             displayGraph();
+
+            cout << endl;
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+            cout << "Operation took: " << duration.count() << " microseconds." << endl << endl;
         }
         else if(function == 2)
         {
@@ -449,10 +471,17 @@ int main()
             cout << "VOTERATE" << endl;
             cin >> mode;
 
+            auto start = chrono::high_resolution_clock::now();
+
             quickSort(data, 0, data.size() - 1, mode);
 
             //todo: displayGraph
             displayGraph();
+
+            cout << endl;
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+            cout << "Operation took: " << duration.count() << " microseconds." << endl << endl;
         }
         else if(function == 3)
         {
@@ -465,10 +494,17 @@ int main()
             cout << "VOTERATE" << endl;
             cin >> mode;
 
+            auto start = chrono::high_resolution_clock::now();
+
             double avg = getAverage(data, mode);
 
             //todo: displayText
             displayText(avg, ("The average stat of " + mode + " is:"));
+
+            cout << endl;
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+            cout << "Operation took: " << duration.count() << " microseconds." << endl << endl;
         }
         else if(function == 4)
         {
@@ -484,13 +520,31 @@ int main()
             cout << "NUMVOTES" << endl;
             cout << "TOTALVOTES" << endl;
             cout << "VOTERATE" << endl;
+            cout << "ADDRESS" << endl;
             cin >> mode;
             cout << "What value?" << endl;
             cin >> value;
 
+            auto start = chrono::high_resolution_clock::now();
+
+            //todo: displayText()
             vector<datapoint> vec;
-            vec.push_back(data[searchValue(data, mode, value)]);
+
+            if(mode != "ADDRESS")
+            {
+                vec.push_back(data[searchValue(data, mode, value)]);
+            }
+            else
+            {
+                vec.push_back(data[stoi(value)]);
+            }
+
             displayText(vec);
+
+            cout << endl;
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+            cout << "Operation took: " << duration.count() << " microseconds." << endl << endl;
         }
         else if(function == 5)
         {
@@ -508,12 +562,10 @@ int main()
             cout << "NUMVOTES" << endl;
             cout << "TOTALVOTES" << endl;
             cout << "VOTERATE" << endl;
-            cin >> mode;
+            cin >> mode1;
 
             cout << "What value?" << endl;
-            cin >> value;
-
-            item1 = searchValue(data, mode, value);
+            cin >> value1;
 
             cout << "Search by?" << endl;
             cout << "YEAR" << endl;
@@ -526,22 +578,32 @@ int main()
             cout << "NUMVOTES" << endl;
             cout << "TOTALVOTES" << endl;
             cout << "VOTERATE" << endl;
-            cin >> mode;
+            cin >> mode2;
 
             cout << "What value?" << endl;
-            cin >> value;
+            cin >> value2;
 
-            item2 = searchValue(data, mode, value);
+            auto start = chrono::high_resolution_clock::now();
+
+            item1 = searchValue(data, mode1, value1);
+            item2 = searchValue(data, mode2, value2);
 
             //todo: displayText
             vector<datapoint> vec;
             vec.push_back(data[item1]);
             vec.push_back(data[item2]);
             displayText(vec);
+
+            cout << endl;
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+            cout << "Operation took: " << duration.count() << " microseconds." << endl << endl;
         }
         else if(function == 6)
         {
-            cout << "Displaying close DEP & REP counties..." << endl;
+            auto start = chrono::high_resolution_clock::now();
+
+            cout << "Displaying close DEM & REP counties..." << endl;
             vector<string> result;
 
             findCloseCounties(data, result);
@@ -551,9 +613,15 @@ int main()
 
             cout << endl;
             displayText(result);
+
+            cout << endl;
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+            cout << "Operation took: " << duration.count() << " microseconds." << endl << endl;
         }
         else if(function == 7)
         {
+            auto start = chrono::high_resolution_clock::now();
             cout << "Displaying extreme counties..." << endl;
             vector<string> result;
 
@@ -564,6 +632,11 @@ int main()
 
             cout << endl;
             displayText(result);
+
+            cout << endl;
+            auto end = chrono::high_resolution_clock::now();
+            auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+            cout << "Operation took: " << duration.count() << " microseconds." << endl << endl;
         }
         else
         {
