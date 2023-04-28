@@ -139,7 +139,7 @@ void displayText(vector<string> vec)
 
 void displayText(double d, string s)
 {
-    cout << s << " " << d << endl;
+    cout << s << " " << setprecision(5) << d << endl;
 }
 
 //get average of a type
